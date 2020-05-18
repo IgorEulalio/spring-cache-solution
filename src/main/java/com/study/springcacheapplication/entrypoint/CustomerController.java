@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/customers")
@@ -20,14 +21,24 @@ public class CustomerController {
     private CustomerDataProvider customerService;
 
     @GetMapping()
-    public ResponseEntity<List<Customer>> getCustomers(@RequestParam(required = false) String last_name,
-                                                       @RequestParam(required = false) String first_name) {
+    public ResponseEntity<List<Customer>> getCustomers(@RequestParam(required = false) String first_name) {
 
-        if(!(last_name == null)){
-            return ResponseEntity.ok().body(customerService.getCustomerByLastName(last_name));
+        if(!(first_name == null)){
+            return ResponseEntity.ok().body(Arrays.asList(customerService.getCustomerByFirstName(first_name)));
+        }
+           return ResponseEntity.ok().body(customerService.getCustomers());
+    }
+
+    @GetMapping("/{id_customer}")
+    public ResponseEntity<Customer> getCustomersById(@PathVariable String id_customer){
+
+        Optional<Customer> customer = customerService.getCustomerById(id_customer);
+
+        if(!customer.isPresent()){
+            return ResponseEntity.status(404).build();
         }
 
-        return ResponseEntity.ok().body(customerService.getCustomers());
+        return ResponseEntity.ok().body(customer.get());
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

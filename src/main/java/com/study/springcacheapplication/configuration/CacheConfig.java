@@ -13,11 +13,19 @@ import java.util.concurrent.TimeUnit;
 @EnableCaching
 public class CacheConfig {
 
-    public final static String CACHE_ONE = "customers";
+    public final static String CACHE_ONE = "customer";
+    public final static String CACHE_TWO = "customers";
 
     @Bean
-    public Cache cache() {
+    public Cache cacheCustomer() {
         return new GuavaCache(CACHE_ONE, CacheBuilder.newBuilder()
+                .expireAfterWrite(60, TimeUnit.SECONDS)
+                .build());
+    }
+
+    @Bean
+    public Cache cacheCustomers() {
+        return new GuavaCache(CACHE_TWO, CacheBuilder.newBuilder()
                 .expireAfterWrite(60, TimeUnit.SECONDS)
                 .build());
     }
