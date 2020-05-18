@@ -3,6 +3,8 @@ package com.study.springcacheapplication;
 import com.study.springcacheapplication.model.Customer;
 import com.study.springcacheapplication.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,10 @@ public class CustomerDataProvider {
 
     public List<Customer> getCustomerByLastName(String lastName){
         return repository.findByLastName(lastName);
+    }
+
+    public List<Customer> getCustomerByFirstName(String firstName){
+        return repository.findByFirstName(firstName);
     }
 
     public List<Customer> getCustomers(){

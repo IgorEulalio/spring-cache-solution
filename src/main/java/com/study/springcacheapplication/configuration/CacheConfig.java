@@ -13,12 +13,12 @@ import java.util.concurrent.TimeUnit;
 @EnableCaching
 public class CacheConfig {
 
-    public final static String CACHE_ONE = "customer";
+    public final static String CACHE_ONE = "customers";
 
     @Bean
     public Cache cache() {
         return new GuavaCache(CACHE_ONE, CacheBuilder.newBuilder()
-                .expireAfterWrite(60, TimeUnit.MINUTES)
+                .expireAfterWrite(60, TimeUnit.SECONDS)
                 .build());
     }
 }
